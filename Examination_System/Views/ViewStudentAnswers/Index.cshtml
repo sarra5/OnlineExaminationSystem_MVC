@@ -1,0 +1,157 @@
+﻿@model IEnumerable<Examination_System.ViewModels.DisplayStudentAnswers>
+
+@{
+    var Duration = ViewBag.Duration;
+    var StdName = ViewBag.StdName;
+    var CrsName = ViewBag.CrsName;
+    var STD_ID = ViewBag.STD_ID;
+    float grade=ViewBag.Grade;
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>GenerateQuestions</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            padding: 20px;
+            margin-right:20%;
+            margin-left: 20%;
+        }
+
+        .question-container {
+            margin-bottom: 20px;
+        }
+
+        .options-container {
+            padding-left: 20px;
+        }
+
+        .option-label {
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .ViewDetails{
+            background-color:darkred;
+            height:170px;
+            text-align:center;
+            color:floralwhite;
+            margin-bottom:1cm;
+            padding:20px;
+
+        }
+
+        .p-3 {
+            border: 2px solid darkred;
+        }
+
+        .DarkredBtn{
+            background-color:darkred;
+        }
+        .Correct{
+            background-color:mediumseagreen;
+        }
+
+        .Wrong{
+            background-color:firebrick;
+        }
+    </style>
+</head>
+<body>
+    <div class="ViewDetails">
+        <h3> Student Name : @StdName</h3>
+        <h3>Course Name : @CrsName</h3>
+        <h3> Student Grade:@grade</h3>
+
+    </div>
+    <form method="post">
+        @foreach (var item in Model)
+        {
+            <div class="question-container">
+
+                @if (item.type == "MCQ")
+                {
+                    if (item.If_Correct == true)
+                    {
+                        <p><strong>@item.Quest : 1/1 </strong> </p>
+
+                        <div class="options-container d-flex flex-column mb-3">
+                            <label class="p-3 bg-opacity-10 Correct ">
+                            <input type="radio" /> @item.Corr_Answer
+                        </label>
+
+                        <label class="p-3 bg-opacity-10  ">
+                            <input type="radio"  /> @item.OPt1_Answer
+                        </label>
+                        <label class="p-3 bg-opacity-10  ">
+                                <input type="radio" /> @item.OPt2_Answer
+                            </label>
+                        <label class="p-3 bg-opacity-10  ">
+                                <input type="radio" /> @item.OPt3_Answer
+                            </label>
+                        </div>
+                    }
+                    else
+                    {
+                        <p><strong>@item.Quest : 0/1</strong> </p>
+
+                        <div class="options-container d-flex flex-column mb-3">
+                            <label class="p-3 bg-opacity-10 Correct ">
+                                <input type="radio"  /> @item.Corr_Answer
+                            </label>
+
+                            <label class="p-3 bg-opacity-10 Wrong ">
+                                <input type="radio" /> @item.Student_Answer
+                            </label>
+                            <label class="p-3 bg-opacity-10  ">
+                                <input type="radio" /> @item.OPt2_Answer
+                            </label>
+                            <label class="p-3 bg-opacity-10  ">
+                                <input type="radio" /> @item.OPt3_Answer
+                            </label>
+                        </div>
+                    }
+                }
+                else if (item.type == "TF")
+                {
+                    if (item.If_Correct)
+                    {
+                        <p><strong>@item.Quest : 1/1</strong> </p>
+
+                        <div class="options-container  d-flex flex-column mb-3">
+                            <label class="p-3 bg-opacity-10 Correct ">
+                                <input type="radio"  /> @item.Corr_Answer
+                            </label>
+                        <label class="p-3 bg-opacity-10  ">
+                                <input type="radio" /> @item.OPt1_Answer
+                            </label>
+                        </div>
+                    }
+                    else
+                    {
+                        <p><strong>@item.Quest : 0/1</strong> </p>
+
+                        <div class="options-container  d-flex flex-column mb-3">
+                            <label class="p-3 bg-opacity-10 Correct ">
+                                <input type="radio"  /> @item.Corr_Answer
+                            </label>
+                            <label class="p-3 bg-opacity-10 Wrong ">
+                                <input type="radio"  /> @item.Student_Answer
+                            </label>
+                        </div>
+                    }
+                }
+
+            </div>
+
+        }
+    </form>
+    <a class="DarkredBtn text-light p-2 rounded" asp-controller="HomePage" asp-action="ShowCourses" asp-route-id="@STD_ID">Go Home</a>
+</body>
+</html>
